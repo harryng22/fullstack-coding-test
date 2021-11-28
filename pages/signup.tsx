@@ -29,9 +29,10 @@ const Signup = () => {
     const { auth } = useContext(FirebaseContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
-    const isInvalid = password === '' || email === '';
+    const isInvalid = password === '' || email === '' || password !== confirmPassword;
 
     const handleShowClick = () => setShowPassword(!showPassword);
 
@@ -93,6 +94,25 @@ const Signup = () => {
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Password"
                                         onChange={({ target }) => setPassword(target.value)}
+                                    />
+                                    <InputRightElement width="4.5rem">
+                                        <Button h="1.75rem" size="sm" onClick={handleShowClick}>
+                                            {showPassword ? "Hide" : "Show"}
+                                        </Button>
+                                    </InputRightElement>
+                                </InputGroup>
+                            </FormControl>
+                            <FormControl>
+                                <InputGroup>
+                                    <InputLeftElement
+                                        pointerEvents="none"
+                                        color="gray.300"
+                                        children={<CFaLock color="gray.300" />}
+                                    />
+                                    <Input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Confirm Password"
+                                        onChange={({ target }) => setConfirmPassword(target.value)}
                                     />
                                     <InputRightElement width="4.5rem">
                                         <Button h="1.75rem" size="sm" onClick={handleShowClick}>
