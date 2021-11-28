@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
     Flex,
     Heading,
@@ -13,17 +13,39 @@ import {
     Avatar,
     FormControl,
     FormHelperText,
-    InputRightElement
+    InputRightElement,
+    Alert,
+    AlertIcon
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
+import FirebaseContext from "contexts/firebase";
+import Router from "next/router";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 const Signup = () => {
+    const { auth } = useContext(FirebaseContext);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
+    const isInvalid = password === '' || email === '';
 
     const handleShowClick = () => setShowPassword(!showPassword);
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                Router.push('/');
+            })
+            .catch((err) => {
+                setError(err.message);
+            });
+    };
 
     return (
         <Flex
@@ -43,20 +65,21 @@ const Signup = () => {
                 <Avatar bg="teal.500" />
                 <Heading color="teal.400">Welcome</Heading>
                 <Box minW={{ base: "90%", md: "468px" }}>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <Stack
                             spacing={4}
                             p="1rem"
                             backgroundColor="whiteAlpha.900"
                             boxShadow="md"
                         >
+                            {error && <Alert status="error"><AlertIcon />{error}</Alert>}
                             <FormControl>
                                 <InputGroup>
                                     <InputLeftElement
                                         pointerEvents="none"
                                         children={<CFaUserAlt color="gray.300" />}
                                     />
-                                    <Input type="email" placeholder="email address" />
+                                    <Input type="email" placeholder="email address" onChange={({ target }) => setEmail(target.value)} />
                                 </InputGroup>
                             </FormControl>
                             <FormControl>
@@ -69,6 +92,7 @@ const Signup = () => {
                                     <Input
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Password"
+                                        onChange={({ target }) => setPassword(target.value)}
                                     />
                                     <InputRightElement width="4.5rem">
                                         <Button h="1.75rem" size="sm" onClick={handleShowClick}>
@@ -83,6 +107,7 @@ const Signup = () => {
                                 variant="solid"
                                 colorScheme="teal"
                                 width="full"
+                                disabled={isInvalid}
                             >
                                 Sign Up
                             </Button>

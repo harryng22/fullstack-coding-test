@@ -1,17 +1,28 @@
-import React, { useRef, useLayoutEffect, Component } from "react";
+import React, { useRef, useLayoutEffect, Component, useContext, useEffect } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import DynamicText from "components/DynamicText";
 import { Container } from "@chakra-ui/layout";
 import { Input } from "@chakra-ui/input";
 import { IDynamicText } from "../interfaces/IDynamicText";
+import FirebaseContext from "contexts/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import Router from "next/router";
 
 const Home = () => {
+  const { auth } = useContext(FirebaseContext);
   const dynamicText = useRef<IDynamicText>();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
     dynamicText.current.changeValue(e.target.value);
   };
+  const user = auth.currentUser;
+
+  useEffect(() => {
+    if (!user) {
+      Router.push('/login');
+    }
+  }, []);
 
   return (
     <Container>
