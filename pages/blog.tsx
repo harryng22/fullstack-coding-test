@@ -1,5 +1,5 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import BlogItem from "./blog-item";
+import BlogItem from "../components/blog-item";
 
 const Blog = () => {
     const item = {
