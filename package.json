@@ -11,10 +11,13 @@
     "@chakra-ui/react": "^1.7.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "firebase": "^9.5.0",
     "framer-motion": "^4",
     "next": "10.0.7",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "react-icons": "^4.3.1",
+    "react-router-dom": "^6.0.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
