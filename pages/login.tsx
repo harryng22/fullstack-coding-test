@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     Flex,
     Heading,
@@ -20,7 +20,9 @@ import {
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import Router from 'next/router';
 import FirebaseContext from "contexts/firebase";
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { logout } from "services/firebase";
+import router from "next/router";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -48,6 +50,16 @@ const Login = () => {
                 setError("Email or password is invalid!");
             });
     };
+
+    // onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //         router.push('/');
+    //     }
+    // });
+
+    useEffect(() => {
+        logout();
+    }, []);
 
     return (
         <Flex
