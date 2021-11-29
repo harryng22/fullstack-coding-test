@@ -1,5 +1,6 @@
 import { initializeApp } from "@firebase/app";
-import { getAuth } from "@firebase/auth";
+import { getAuth, signOut } from "@firebase/auth";
+import Router from "next/router";
 import { seedDatabase } from '../seed';
 
 const firebaseConfig = {
@@ -14,5 +15,13 @@ const firebaseConfig = {
 
 export const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth();
+
+export const logout = () => {
+    signOut(auth).then(() => {
+        Router.push('/login');
+    }).catch((error) => {
+        console.log(error);
+    });
+};
 
 seedDatabase();

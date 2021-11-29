@@ -14,11 +14,22 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
+    Heading
 } from '@chakra-ui/react';
+import { onAuthStateChanged } from '@firebase/auth';
 import { NavItem, NAV_ITEMS } from 'constants/navItems';
+import FirebaseContext from 'contexts/firebase';
+import { useRouter } from 'next/router';
+import { useContext, useState } from 'react';
+import { logout } from 'services/firebase';
 
 export default function WithSubnavigation() {
+    const { auth } = useContext(FirebaseContext);
+    const [user, setUser] = useState(auth.currentUser);
     const { isOpen, onToggle } = useDisclosure();
+    onAuthStateChanged(auth, (user) => {
+        setUser(user);
+    });
 
     return (
         <Box>
@@ -46,16 +57,39 @@ export default function WithSubnavigation() {
                         <DesktopNav />
                     </Flex>
                 </Flex>
+
+                {user && <Stack
+                    justify={'flex-end'}
+                    direction={'row'}
+                    alignItems='center'
+                    spacing={6}>
+                    <Box>
+                        <Text>Hi, {user.email}</Text>
+                    </Box>
+                    <Button
+                        display={{ base: 'none', md: 'inline-flex' }}
+                        fontSize={'sm'}
+                        fontWeight={600}
+                        color={'white'}
+                        bg={'pink.400'}
+                        onClick={logout}
+                        _hover={{
+                            bg: 'pink.300',
+                        }}>
+                        Sign Out
+                    </Button>
+                </Stack>}
             </Flex>
 
             <Collapse in={isOpen} animateOpacity>
                 <MobileNav />
             </Collapse>
-        </Box>
+        </Box >
     );
 }
 
 const DesktopNav = () => {
+    const router = useRouter();
     const linkColor = useColorModeValue('gray.600', 'gray.200');
     const linkHoverColor = useColorModeValue('gray.800', 'white');
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');
@@ -68,7 +102,7 @@ const DesktopNav = () => {
                         <PopoverTrigger>
                             <Link
                                 p={2}
-                                href={navItem.href ?? '#'}
+                                onClick={() => router.push(navItem.href)}
                                 fontSize={'sm'}
                                 fontWeight={500}
                                 color={linkColor}
