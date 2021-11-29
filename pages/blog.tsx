@@ -2,22 +2,21 @@ import { SimpleGrid } from "@chakra-ui/react";
 import FirebaseContext from "contexts/firebase";
 import { useContext, useEffect, useState } from "react";
 import BlogItem from "../components/blog-item";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where, onSnapshot } from "firebase/firestore";
 
 const Blog = () => {
     const { db } = useContext(FirebaseContext);
     const [blogItems, setBlogItems] = useState([]);
 
     useEffect(() => {
-        const fetchBlogs = async () => {
-            ;
-            const querySnapshot = await getDocs(collection(db, "blogs"));
-            ;
+        const q = query(collection(db, "blogs"));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const data = querySnapshot.docs.map(item => item.data());
             setBlogItems(data);
-        };
-
-        fetchBlogs();
+        });
+        return () => {
+            unsubscribe();
+        }
     }, []);
 
     return (
