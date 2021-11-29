@@ -10,9 +10,9 @@ const Blog = () => {
 
     useEffect(() => {
         const fetchBlogs = async () => {
-            debugger;
+            ;
             const querySnapshot = await getDocs(collection(db, "blogs"));
-            debugger;
+            ;
             const data = querySnapshot.docs.map(item => item.data());
             setBlogItems(data);
         };
@@ -22,7 +22,7 @@ const Blog = () => {
 
     return (
         <SimpleGrid columns={[2, null, 3]} minChildWidth="300px" spacing="10" padding="10">
-            {blogItems && blogItems.map(item => <BlogItem item={item} />)}
+            {blogItems && blogItems.map(item => <BlogItem key={item.id} item={item} />)}
         </SimpleGrid>
     );
 };

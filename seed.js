@@ -2,7 +2,7 @@ import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 export const blogs = [
   {
     id: "39d56bba-170f-43b7-a1df-dc75e7055161",
-    title: "The Plan for React 18",
+    title: "The Plan for React 18. The React team is excited to share a few updates",
     body: `The React team is excited to share a few updates:
 
 We’ve started work on the React 18 release, which will be our next major version.
@@ -293,7 +293,6 @@ export async function seedDatabase() {
   if (querySnapshot.empty) {
     blogs.forEach(async (item) => {
       try {
-        debugger;
         const docRef = await addDoc(collection(db, "blogs"), item);
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
