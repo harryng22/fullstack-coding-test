@@ -38,12 +38,12 @@ const BlogItem = ({ item }) => {
                 </Box>
             </Box>
 
-            <Modal onClose={onClose} isOpen={isOpen} isCentered scrollBehavior='inside' size='xl'>
+            <Modal onClose={onClose} isOpen={isOpen} isCentered scrollBehavior='inside' size='4xl'>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalBody>
                         <Center>
-                            <Flex direction="column">
+                            <Flex direction="column" alignItems='center'>
                                 <Heading mb='5'>{item.title}</Heading>
                                 <Box mb='5'>
                                     <Image src={item.imageUrl} alt={item.imageAlt} />
