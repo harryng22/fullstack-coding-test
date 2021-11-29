@@ -16,11 +16,11 @@ const Blog = () => {
         });
         return () => {
             unsubscribe();
-        }
+        };
     }, []);
 
     return (
-        <SimpleGrid columns={[2, null, 3]} minChildWidth="300px" spacing="10" padding="10">
+        <SimpleGrid columns={[2, null, 3]} minChildWidth="300px" spacing="10" padding="10" bgColor='#F1F1F1'>
             {blogItems && blogItems.map(item => <BlogItem key={item.id} item={item} />)}
         </SimpleGrid>
     );

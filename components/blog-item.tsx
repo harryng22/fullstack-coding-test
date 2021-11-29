@@ -12,7 +12,8 @@ import {
     Box,
     Image,
     Flex,
-    Center
+    Center,
+    Stack
 } from '@chakra-ui/react';
 
 import { useDisclosure } from '@chakra-ui/hooks';
@@ -25,7 +26,7 @@ const BlogItem = ({ item }) => {
             <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden" onClick={onOpen}>
                 <Image src={item.imageUrl} alt={item.imageAlt} />
 
-                <Box p="6">
+                <Box p="6" backgroundColor='#ffffff'>
                     <Box
                         mt="1"
                         fontWeight="semibold"
@@ -41,6 +42,7 @@ const BlogItem = ({ item }) => {
             <Modal onClose={onClose} isOpen={isOpen} isCentered scrollBehavior='inside' size='4xl'>
                 <ModalOverlay />
                 <ModalContent>
+                    {/* <ModalCloseButton /> */}
                     <ModalBody>
                         <Center>
                             <Flex direction="column" alignItems='center'>
@@ -55,7 +57,9 @@ const BlogItem = ({ item }) => {
                         </Center>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={onClose}>Close</Button>
+                        <Center w='100%'>
+                            <Button onClick={onClose}>Close</Button>
+                        </Center>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
