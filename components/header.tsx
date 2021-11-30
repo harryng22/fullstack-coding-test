@@ -43,6 +43,7 @@ export default function WithSubnavigation() {
                 position='fixed'
                 borderBottom={1}
                 borderStyle={'solid'}
+                zIndex='1'
                 borderColor={useColorModeValue('gray.200', 'gray.900')}
                 align={'center'}>
                 <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
