@@ -1,6 +1,7 @@
 import { Box, Table, Button, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react'
 import axios from 'axios';
 import BlogRow from 'components/blog-row';
+import { API_URL } from 'constants/constants';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -8,7 +9,7 @@ const Dashboard = () => {
     const [blogs, setBlogs] = useState([]);
 
     const loadBlogs = () => {
-        axios.get('https://localhost:7077/blog')
+        axios.get(`${API_URL}/blog`)
             .then(response => {
                 if (response.data) {
                     setBlogs(response.data);
@@ -47,7 +48,7 @@ const Dashboard = () => {
                 </Thead>
                 <Tbody>
                     {blogs && blogs.map(item => <BlogRow key={item.id} item={item} onDeleteCallback={loadBlogs} />)}
-                    
+
                 </Tbody>
             </Table>
         </Box>
