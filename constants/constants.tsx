@@ -1,1 +1,1 @@
-export const API_URL = 'https://localhost:7077'
+export const API_URL = 'https://fullstackcodingtest.azurewebsites.net'
