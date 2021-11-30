@@ -8,9 +8,21 @@ import {
     Stack, Button
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
+// import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import dynamic from 'next/dynamic'
+import { EditorProps } from 'react-draft-wysiwyg'
+
+// install @types/draft-js @types/react-draft-wysiwyg and @types/draft-js @types/react-draft-wysiwyg for types
+
+const Editor = dynamic<EditorProps>(
+    () => import('react-draft-wysiwyg').then((mod) => mod.Editor),
+    { ssr: false }
+)
 
 const Add = () => {
+    const [editorState, setEditorState] = useState('');
     const router = useRouter();
     const { id } = router.query;
     if (id === 'create') {
@@ -30,9 +42,15 @@ const Add = () => {
                     <FormLabel>Title: </FormLabel>
                     <Input type='text' placeholder='Please enter title' />
                 </FormControl>
-                <FormControl id='body' isRequired>
+                <FormControl id='body' isRequired h='300px'>
                     <FormLabel>Body: </FormLabel>
-                    <Input type='text' placeholder='Please enter body' />
+                    <Editor
+                        editorState={editorState}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editorClassName"
+                        onEditorStateChange={setEditorState}
+                    />
                 </FormControl>
                 <FormControl id='imageUrl' isRequired>
                     <FormLabel>Image URL: </FormLabel>
@@ -43,12 +61,12 @@ const Add = () => {
                     <Input type='text' placeholder='Please enter image Alt' />
                 </FormControl>
                 <Button
-                    borderRadius={0}
+                    borderRadius={5}
                     type="submit"
                     variant="solid"
-                    colorScheme="teal"
-                    width="200px"
-                    // disabled={isInvalid}
+                    colorScheme="blue"
+                    width="100px"
+                // disabled={isInvalid}
                 >
                     Save
                 </Button>
