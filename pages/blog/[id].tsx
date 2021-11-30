@@ -17,6 +17,7 @@ import axios from 'axios';
 import draftToHtml from 'draftjs-to-html';
 // import htmlToDraft from 'html-to-draftjs';
 import { convertFromHTML, ContentState, convertFromRaw, EditorState } from 'draft-js';
+import { API_URL } from 'constants/constants';
 
 let htmlToDraft = null;
 if (typeof window === 'object') {
@@ -54,7 +55,7 @@ const Add = () => {
                 imageAlt: ''
             })
         } else {
-            axios.get('https://localhost:7077/blog/' + id)
+            axios.get(`${API_URL}/blog/` + id)
                 .then(response => {
                     if (response.data) {
                         setModel(response.data);
@@ -74,10 +75,10 @@ const Add = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('https://localhost:7077/blog', { ...model })
+        axios.post(`${API_URL}/blog/`, { ...model })
             .then(response => {
                 if (response.data) {
-                    console.log(response.data);
+                    router.push('/dashboard');
                 }
             })
             .catch(error => console.log(error));

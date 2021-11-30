@@ -1,25 +1,38 @@
 import { Tr, Td, Text, Image, Button, Stack } from '@chakra-ui/react'
-const BlogRow = () => {
+import axios from 'axios';
+import { API_URL } from 'constants/constants';
+import router from 'next/router';
+const BlogRow = ({ item, onDeleteCallback }) => {
+    const onDelete = () => {
+        axios
+            .delete(`${API_URL}/blog/` + item.id)
+            .then((response) => {
+                if (response.data) {
+                    onDeleteCallback();
+                }
+            })
+            .catch((err) => console.log(err.message));
+    }
     return (
         <Tr>
             <Td>
                 <Text noOfLines={3}>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi assumenda pariatur aliquam sapiente, laboriosam ipsam doloremque tempore sunt eaque nam nemo
+                    {item.title}
                 </Text>
             </Td>
             <Td>
                 <Text noOfLines={3}>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi assumenda pariatur aliquam sapiente, laboriosam ipsam doloremque tempore sunt eaque nam nemo, inventore quos enim maxime magni. Quidem, ad. Eaque, non.lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus excepturi illum ducimus quidem quo, cupiditate voluptate neque doloremque alias velit error possimus ab nemo, inventore unde molestias? Perferendis, necessitatibus recusandae. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus porro distinctio quidem error ullam dolores velit veritatis, voluptates harum nam eum minus ipsa odit facere voluptatum ipsam pariatur! Aliquid, tenetur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae enim molestias ad nihil. Quas, vitae necessitatibus? Nobis dolores dignissimos in libero numquam ipsa quo commodi dicta dolorem reiciendis, quam odit.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi assumenda pariatur aliquam sapiente, laboriosam ipsam doloremque tempore sunt eaque nam nemo, inventore quos enim maxime magni. Quidem, ad. Eaque, non.lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus excepturi illum ducimus quidem quo, cupiditate voluptate neque doloremque alias velit error possimus ab nemo, inventore unde molestias? Perferendis, necessitatibus recusandae. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus porro distinctio quidem error ullam dolores velit veritatis, voluptates harum nam eum minus ipsa odit facere voluptatum ipsam pariatur! Aliquid, tenetur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae enim molestias ad nihil. Quas, vitae necessitatibus? Nobis dolores dignissimos in libero numquam ipsa quo commodi dicta dolorem reiciendis, quam odit.
+                    {item.body}
                 </Text>
             </Td>
             <Td>
-                <Image src='/images/image1.jpg' />
+                <Image src={item.imageUrl} alt={item.imageAlt} w='200px' />
             </Td>
-            <Td>{ new Date().toLocaleDateString()}</Td>
+            <Td>{new Date(item.createdDate).toLocaleDateString()}</Td>
             <Td>
                 <Stack direction='row'>
-                    <Button bgColor='green.500' color='white'>Edit</Button>
-                    <Button bgColor='red.500' color='white'>Delete</Button>
+                    <Button bgColor='green.500' color='white' onClick={() => router.push('/blog/' + item.id)}>Edit</Button>
+                    <Button bgColor='red.500' color='white' onClick={onDelete}>Delete</Button>
                 </Stack>
             </Td>
         </Tr>
